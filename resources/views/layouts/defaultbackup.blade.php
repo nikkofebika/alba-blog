@@ -4,7 +4,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta http-equiv="x-ua-compatible" content="ie=edge" />
-	<title>{{ config('app.name', 'Cafe') }}</title>
+	<title>{{ config('app.name', 'blog') }}</title>
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
 	<!-- Google Fonts Roboto -->
@@ -234,7 +234,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
 		<div class="container">
 			<a class="navbar-brand me-2" href="{{ url('/') }}">
-				<img src="{{ asset('frontend/img/logo_cafe.png') }}" width="50" alt="Logo Cafe" loading="lazy">
+				<img src="{{ asset('frontend/img/logo_blog.png') }}" width="50" alt="Logo blog" loading="lazy">
 			</a>
 			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
 				<i class="fas fa-bars"></i>
@@ -303,7 +303,7 @@
 						</p>
 					</div>
 					<div class="col-lg-3 col-md-6 footer-info">
-						<h3>About Cafe</h3>
+						<h3>About blog</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 						quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
@@ -319,7 +319,7 @@
 		</div>
 		<div class="container">
 			<div class="copyright">
-				© Copyright <strong><span>Cafe</span></strong>. All Rights Reserved
+				© Copyright <strong><span>blog</span></strong>. All Rights Reserved
 			</div>
 		</div>
 	</footer>

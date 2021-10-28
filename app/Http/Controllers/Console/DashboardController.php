@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller {
 	public function index(){
-		$admins = DB::table('users')->where('is_admin', 1)->count();
-		$users = DB::table('users')->where('is_admin', 0)->count();
-		$articles = DB::table('articles')->count();
+		$users = DB::table('users')->count();
+		$posts = DB::table('posts')->count();
 		$facilities = DB::table('facilities')->count();
 		$rooms = DB::table('rooms')->count();
-		return view('console.dashboard.index', ['page_title' => 'Bulletin', 'active_menu' => 'dashboard', 'admins' => $admins, 'users' => $users, 'articles' => $articles, 'facilities' => $facilities, 'rooms' => $rooms]);
+		return view('console.dashboard.index', ['page_title' => 'Dashboard', 'active_menu' => 'dashboard', 'users' => $users, 'posts' => $posts, 'facilities' => $facilities, 'rooms' => $rooms]);
 	}
 }

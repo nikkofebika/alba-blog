@@ -42,7 +42,7 @@
 											<td><input type="checkbox" <?php echo $c->approved_by != null ? 'checked' : '' ?> class="check_active" data-category_id="{{ $c->id }}" /></td>
 											<td>
 												<button class="btn btn-warning btn-xs" data-id="{{ $c->id }}" data-title="{{ $c->title }}" data-priority="{{ $c->priority }}" data-toggle="modal" data-target="#mdlEdit"><i class="fa fa-edit"></i></button>
-												<form method="POST" onsubmit="return confirm('Hapus <?php echo $c->title ?> ?')" action="{{ url('console/article-categories/destroy/'.$c->id) }}" class="d-inline">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-trash"></i></button></form>
+												<form method="POST" onsubmit="return confirm('Hapus <?php echo $c->title ?> ?')" action="{{ url('console/categories/destroy/'.$c->id) }}" class="d-inline">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-trash"></i></button></form>
 											</td>
 										</tr>
 									<?php } ?>
@@ -64,21 +64,21 @@
 				</button>
 				<h4 class="modal-title">Buat Kategori</h4>
 			</div>
-			<form id="formCategory" action="{{ url('console/article-categories') }}" method="post">
+			<form id="formCategory" action="{{ url('console/categories') }}" method="post">
 				<div class="modal-body">
 					@csrf
 					<div class="form-group">
-						<label>Title</label>
+						<label>Title <span class="text-danger">*</span></label>
 						<input type="text" name="title" class="form-control" required placeholder="Nama kategori">
 						<strong class="text-red" style="display: none;">Kategori sudah digunakan</strong>
 					</div>
 					<div class="form-group">
-						<label>Urutan</label>
+						<label>Urutan <span class="text-danger">*</span></label>
 						<input type="number" name="priority" class="form-control" required min="1" placeholder="Urutan (angka)">
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn_submit">Simpan</button>
+					<button type="submit" class="btn btn-primary btn_submit">Simpan</button>
 				</div>
 			</form>
 		</div>
@@ -93,22 +93,22 @@
 				</button>
 				<h4 class="modal-title">Edit Kategori</h4>
 			</div>
-			<form id="formCategory" action="{{ url('console/article-categories') }}" method="post">
+			<form id="formCategory" action="{{ url('console/categories') }}" method="post">
 				<input type="hidden" name="id" value="">
 				<div class="modal-body">
 					@csrf
 					<div class="form-group">
-						<label>Title</label>
+						<label>Title <span class="text-danger">*</span></label>
 						<input type="text" name="title" class="form-control" required placeholder="Nama kategori">
 						<strong class="text-red" style="display: none;">Kategori sudah digunakan</strong>
 					</div>
 					<div class="form-group">
-						<label>Urutan</label>
+						<label>Urutan <span class="text-danger">*</span></label>
 						<input type="number" name="priority" class="form-control" required min="1" placeholder="Urutan (angka)">
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn_submit">Update</button>
+					<button type="submit" class="btn btn-primary btn_submit">Update</button>
 				</div>
 			</form>
 		</div>
@@ -134,7 +134,7 @@
 
 		$('#mdlCreate .btn_submit').on('click',function(e) {
 			$('#mdlCreate .btn_submit').attr('disabled',true).text('Loading...');
-			$.post('/console/article-categories/ajax_cek_category', {title: $("#mdlCreate input[name=title]").val(), priority: $("#mdlCreate input[name=priority]").val()}, function(res){
+			$.post('/console/categories/ajax_cek_category', {title: $("#mdlCreate input[name=title]").val(), priority: $("#mdlCreate input[name=priority]").val()}, function(res){
 				if (!res.success) {
 					$('#mdlCreate .text-red').show();
 					$('#mdlCreate .btn_submit').attr('disabled',false).text('Simpan');
@@ -147,7 +147,7 @@
 
 		$('#mdlEdit .btn_submit').on('click',function(e) {
 			$('#mdlEdit .btn_submit').attr('disabled',true).text('Loading...');
-			$.post('/console/article-categories/ajax_cek_category', {id:$("#mdlEdit input[name=id]").val(), title: $("#mdlEdit input[name=title]").val(), priority: $("#mdlEdit input[name=priority]").val()}, function(res){
+			$.post('/console/categories/ajax_cek_category', {id:$("#mdlEdit input[name=id]").val(), title: $("#mdlEdit input[name=title]").val(), priority: $("#mdlEdit input[name=priority]").val()}, function(res){
 				if (!res.success) {
 					$('#mdlEdit .btn_submit').attr('disabled',false).text('Update');
 					$('#mdlEdit .text-red').show();
@@ -168,7 +168,7 @@
 
 		$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 		function ajax_active_category(id,val){
-			$.post(`{{ url('console/article-categories/ajax_active_category') }}`, {category_id:id, val:val}, function(res){
+			$.post(`{{ url('console/categories/ajax_active_category') }}`, {category_id:id, val:val}, function(res){
 				if (res.success){
 					toastr.success(res.message);
 				} else {

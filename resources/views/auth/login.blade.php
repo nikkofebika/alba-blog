@@ -35,7 +35,7 @@
 		<div class="col-lg-12 my-5">
 			<div class="form-signin text-center">
 				<form>
-					<img class="mb-4" src="{{ asset('assets/img/logo_cafe.png') }}" class="img-responsive">
+					<img class="mb-4" src="{{ asset('assets/img/logo_blog.png') }}" class="img-responsive">
 					<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
 					<div class="form-floating">

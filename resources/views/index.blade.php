@@ -7,14 +7,14 @@
 	<div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
 		<ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
 		<div class="carousel-inner" role="listbox">
-			@for($i = 0; $i < count($articles); $i++)
-			<div class="carousel-item @if($i==0) active @endif" style="background-image: url({{ asset($articles[$i]->image) }})">
+			@for($i = 0; $i < count($posts); $i++)
+			<div class="carousel-item @if($i==0) active @endif" style="background-image: url({{ asset($posts[$i]->image) }})">
 				<div class="carousel-container">
 					<div class="container">
-						<h2 class="animate__animated animate__fadeInDown">{{ $articles[$i]->title }}</h2>
-						<p class="animate__animated animate__fadeInUp">{{strip_tags($articles[$i]->description)}}...</p>
+						<h2 class="animate__animated animate__fadeInDown">{{ $posts[$i]->title }}</h2>
+						<p class="animate__animated animate__fadeInUp">{{strip_tags($posts[$i]->description)}}...</p>
 						@auth
-						<a href="{{ url('bulletin/'.$articles[$i]->seo_category.'/'.$articles[$i]->seo_title) }}" class="btn-get-started">Selengkapnya</a>
+						<a href="{{ url('bulletin/'.$posts[$i]->seo_category.'/'.$posts[$i]->seo_title) }}" class="btn-get-started">Selengkapnya</a>
 						@else
 						<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#mdlLogin" class="btn-get-started">Selengkapnya</a>
 						@endauth
@@ -81,7 +81,7 @@
 		<hr class="mt-1 text-danger opacity-100" style="height: 3px;">
 		<div class="swiper mySwiper">
 			<div class="swiper-wrapper mb-4">
-				@foreach($articles as $a)
+				@foreach($posts as $a)
 				<a href="{{ url('bulletin/'.$a->seo_title) }}">
 					<div class="card mb-3 shadow swiper-slide">
 						<img data-src="{{ asset('assets/img/blog/blog-1.jpg') }}" class="card-img-top swiper-lazy" alt="{{ $a->title }}">

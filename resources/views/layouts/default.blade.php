@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>Cafe</title>
+	<title>blog</title>
 	<meta content="" name="description">
 	<meta content="" name="keywords">
 	<link href="{{ asset('assets/img/logo/favicon.png') }}" rel="icon">
@@ -53,7 +53,7 @@
 	<header id="header" class="fixed-top d-flex align-items-center py-2">
 		<div class="container d-flex align-items-center justify-content-between">
 			<a class="" href="{{ url('') }}">
-				<img src="{{ asset('assets/img/logo/logo_cafe.png') }}">
+				<img src="{{ asset('assets/img/logo/logo_blog.png') }}">
 			</a>
 			<nav id="navbar" class="navbar float-end">
 				<ul>

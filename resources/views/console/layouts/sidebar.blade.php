@@ -1,7 +1,5 @@
 <aside class="main-sidebar">
-	<!-- sidebar: style can be found in sidebar.less -->
 	<section class="sidebar">
-		<!-- Sidebar user panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
 				<img src="{{ asset(auth()->user()->photo) }}" class="img-circle" alt="User Image">
@@ -15,7 +13,7 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MAIN NAVIGATION</li>
 			<li class="{{ $active_menu == 'dashboard' ? 'active' : '' }}">
-				<a href="{{ url('console/dashboard') }}">
+				<a href="{{ url('console') }}">
 					<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 				</a>
 			</li>
@@ -24,35 +22,20 @@
 					<i class="fa fa-users"></i> <span>User</span>
 				</a>
 			</li>
-			<li class="{{ $active_menu == 'attendance' ? 'active' : '' }}">
-				<a href="javascript:void()">
-					<i class="fa fa-forumbee"></i> <span>Attendance</span>
+			<li class="{{ $active_menu == 'posts' ? 'active' : '' }}">
+				<a href="{{ url('console/posts') }}">
+					<i class="fa fa-newspaper-o"></i> <span>Post</span>
 				</a>
 			</li>
-			<li class="treeview {{ in_array($active_menu, ['leave-request','leave-balance','leave-approval']) ? 'active' : '' }}">
-				<a href="#">
-					<i class="fa fa-list"></i> <span>Leave Request</span>
-					<span class="pull-right-container">
-						<i class="fa fa-angle-left pull-right"></i>
-					</span>
+			<li class="{{ $active_menu == 'categories' ? 'active' : '' }}">
+				<a href="{{ url('console/categories') }}">
+					<i class="fa fa-bookmark-o"></i> <span>Category</span>
 				</a>
-				<ul class="treeview-menu">
-					<li class="{{ $active_menu == 'leave-request' ? 'active' : '' }}"><a href="javascript:void()"><i class="fa fa-circle-o"></i> Leave Request</a></li>
-					<li class="{{ $active_menu == 'leave-balance' ? 'active' : '' }}"><a href="javascript:void()"><i class="fa fa-circle-o"></i> Leave Balance</a></li>
-					<li class="{{ $active_menu == 'leave-approval' ? 'active' : '' }}"><a href="javascript:void()"><i class="fa fa-circle-o"></i> Leave Approval</a></li>
-				</ul>
 			</li>
-			<li class="treeview {{ $active_menu == 'articles' || $active_menu == 'article_category' ? 'active' : '' }}">
-				<a href="#">
-					<i class="fa fa-newspaper-o"></i> <span>Bulletin</span>
-					<span class="pull-right-container">
-						<i class="fa fa-angle-left pull-right"></i>
-					</span>
+			<li class="{{ $active_menu == 'tags' ? 'active' : '' }}">
+				<a href="{{ url('console/tags') }}">
+					<i class="fa fa-bookmark-o"></i> <span>Tag</span>
 				</a>
-				<ul class="treeview-menu">
-					<li class="{{ $active_menu == 'articles' ? 'active' : '' }}"><a href="{{ url('console/articles') }}"><i class="fa fa-circle-o"></i> Bulletin</a></li>
-					<li class="{{ $active_menu == 'article_category' ? 'active' : '' }}"><a href="{{ url('console/article-categories') }}"><i class="fa fa-circle-o"></i> Kategori</a></li>
-				</ul>
 			</li>
 			<li class="{{ $active_menu == 'facilities' ? 'active' : '' }}">
 				<a href="{{ url('console/facilities') }}">
@@ -87,10 +70,10 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ url('console/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+				<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 					<i class="fa fa-sign-out"></i> <span>Logout</span>
 				</a>
-				<form id="logout-form" action="{{ url('console/logout') }}" method="POST" class="d-none">
+				<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
 					@csrf
 				</form>
 			</li>

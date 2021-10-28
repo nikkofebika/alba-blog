@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model {
+class Post extends Model {
 	public function user() {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class);
     }
     public function approvedby() {
         return $this->belongsTo(User::class, 'approved_by');

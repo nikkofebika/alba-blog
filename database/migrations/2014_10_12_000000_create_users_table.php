@@ -20,8 +20,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('photo')->default('/images/users/user_default.png');
-            // $table->unsignedBigInteger('role_id')->default(0);
-            $table->boolean('is_admin')->unsigned()->default(false);
             $table->boolean('is_active')->unsigned()->default(false);
             $table->rememberToken();
             $table->timestamps();

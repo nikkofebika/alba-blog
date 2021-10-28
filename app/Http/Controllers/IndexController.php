@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
     public function index() {
-        $articles = DB::table('articles')->join('article_categories', 'articles.article_category_id', '=', 'article_categories.id')->select('article_categories.seo_title as seo_category','articles.title','articles.seo_title','articles.image', DB::raw('substr(articles.description, 1, 250) as description'))->where('articles.is_slider', 1)->whereNotNull('articles.approved_by')->whereDate('articles.published_at','<=', NOW())->get();
+        $posts = DB::table('posts')->join('categories', 'posts.category_id', '=', 'categories.id')->select('categories.seo_title as seo_category','posts.title','posts.seo_title','posts.image', DB::raw('substr(posts.description, 1, 250) as description'))->where('posts.is_slider', 1)->whereNotNull('posts.approved_by')->whereDate('posts.published_at','<=', NOW())->get();
         if (auth()->check()) {
             $teams = DB::table('teams')->select('name','position','image','socmed')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
-            return view('index', ['active_menu' => 'home', 'articles' => $articles, 'teams' => $teams]);
+            return view('index', ['active_menu' => 'home', 'posts' => $posts, 'teams' => $teams]);
         }
-        return view('index', ['active_menu' => 'home', 'articles' => $articles]);
+        return view('index', ['active_menu' => 'home', 'posts' => $posts]);
     }
 
     public function company_policy() {
@@ -44,8 +44,8 @@ class IndexController extends Controller {
     }
 
     public function bulletin() {
-        $bulletins = DB::table('articles')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->paginate(15);
-        $recent_bulletins = DB::table('articles')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->orderBy('published_at', 'desc')->limit(5)->get();
+        $bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->paginate(15);
+        $recent_bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->orderBy('published_at', 'desc')->limit(5)->get();
         return view('bulletin', ['bulletins' => $bulletins, 'recent_bulletins' => $recent_bulletins, 'active_menu' => 'bulletin']);
     }
 
@@ -54,8 +54,8 @@ class IndexController extends Controller {
     }
     
     // public function detail_bulletin($seo_title) {
-    // 	$bulletin = DB::table('articles')->select('title','seo_title','description','image','published_at','created_by')->where('seo_title', $seo_title)->where([['published_at', '<=', NOW()], ['approved', 1]])->first();
-    //     $recent_bulletins = DB::table('articles')->select('title','seo_title','description','image','published_at','created_by')->where([['published_at', '<=', NOW()], ['approved', 1]])->where('seo_title','!=',$bulletin->seo_title)->orderBy('published_at', 'desc')->limit(5)->get();
+    // 	$bulletin = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('seo_title', $seo_title)->where([['published_at', '<=', NOW()], ['approved', 1]])->first();
+    //     $recent_bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where([['published_at', '<=', NOW()], ['approved', 1]])->where('seo_title','!=',$bulletin->seo_title)->orderBy('published_at', 'desc')->limit(5)->get();
     // 	return view('detail_bulletin', ['bulletin' => $bulletin, 'recent_bulletins' => $recent_bulletins, 'active_menu' => 'bulletin']);
     // }
 }

@@ -24,7 +24,7 @@
 <body class="hold-transition login-page">
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="/"><b>CAFE</b></a>
+			<a href="/"><b>blog</b></a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="login-box-body">
@@ -36,7 +36,7 @@
 				{{ session('error') }}
 			</div>
 			@endif
-			<form action="{{ url('console/login_admin') }}" method="POST">
+			<form action="{{ route('login') }}" method="POST">
 				@csrf
 				<div class="form-group has-feedback">
 					<input name="email" type="email" class="form-control" placeholder="Email" value="{{ old('email') }}">

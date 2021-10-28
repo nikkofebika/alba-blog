@@ -25,7 +25,6 @@
 										<th>No</th>
 										<th>Name</th>
 										<th>Email</th>
-										<th>Status</th>
 										<th>Aktif</th>
 										<th></th>
 									</tr>
@@ -67,8 +66,7 @@
 			{data: 'id', name: 'id'},
 			{data: 'name', name: 'name'},
 			{data: 'email', name: 'email'},
-			{data: 'is_admin', name: 'is_admin'},
-			{data: 'is_active', name: 'is_active',orderable: false},
+			{data: 'is_active', name: 'is_active'},
 			{
 				data: 'action',
 				name: 'action',

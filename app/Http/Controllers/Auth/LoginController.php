@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/console/dashboard';
 
     /**
      * Create a new controller instance.
@@ -37,31 +37,39 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+    	$this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm()
+    {
+    	return view('console.auth.login');
     }
 
     public function login(Request $request)
     {
-        $this->validateLogin($request);
-        if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
+    	$this->validateLogin($request);
+    	if (method_exists($this, 'hasTooManyLoginAttempts') && $this->hasTooManyLoginAttempts($request)) {
+    		$this->fireLockoutEvent($request);
 
-            return $this->sendLockoutResponse($request);
-        }
+    		return $this->sendLockoutResponse($request);
+    	}
 
-        if ($this->attemptLogin($request)) {
-            return ['success'=>true];
-        }
-        return ['success'=>false];
+    	if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1], $request->filled('remember'))) {
+    		return $this->sendLoginResponse($request);
+    	}
+
+    	$this->incrementLoginAttempts($request);
+
+    	return back()->withInput()->with('error','Kombinasi Email dan Password tidak cocok!');
     }
 
     public function logout(Request $request) {
-        Auth::guard('web')->logout();
+    	Auth::logout();
 
-        $request->session()->invalidate();
+    	$request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+    	$request->session()->regenerateToken();
 
-        return redirect('/');
+    	return redirect('login');
     }
 }

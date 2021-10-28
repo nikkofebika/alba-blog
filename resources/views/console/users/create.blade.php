@@ -37,29 +37,10 @@
 								<span class="help-block">{{ $message }}</span>
 								@enderror
 							</div>
-							<div class="form-group @error('is_admin') has-error @enderror">
-								<label>Tipe <span class="text-danger">*</span></label>
-								<select name="is_admin" class="form-control" required>
-									<option value="">- Pilih Tipe -</option>
-									<option value="1" {{ old('is_admin') == 1 ? 'selected' : '' }}>Admin</option>
-									<option value="0" {{ old('is_admin') == 0 ? 'selected' : '' }}>User</option>
-									option
-								</select>
-								@error('is_admin')
-								<span class="help-block">{{ $message }}</span>
-								@enderror
-							</div>
 							<div class="form-group @error('photo') has-error @enderror">
 								<label>Foto <span class="text-danger">*</span> <small class="text-warning">(Max 500kb | jpg,jpeg,png,svg)</small></label>
 								<input type="file" name="photo" class="form-control" required value="{{ old('photo') }}">
 								@error('photo')
-								<span class="help-block">{{ $message }}</span>
-								@enderror
-							</div>
-							<div class="form-group @error('saldo') has-error @enderror">
-								<label>Saldo Medical <span class="text-danger">*</span></label>
-								<input type="number" name="saldo" class="form-control" placeholder="Saldo Medical" value="{{ old('saldo') }}">
-								@error('saldo')
 								<span class="help-block">{{ $message }}</span>
 								@enderror
 							</div>

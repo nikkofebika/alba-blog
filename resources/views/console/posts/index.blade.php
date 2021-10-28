@@ -15,7 +15,7 @@
 				<div class="box">
 					<div class="box-header">
 						<?php if(session('notification')){echo session('notification');} ?>
-						<a href="{{ route('console.articles.create') }}" title="Tambah Data" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Data</a>
+						<a href="{{ route('console.posts.create') }}" title="Tambah Data" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Data</a>
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
@@ -50,7 +50,7 @@
 		var table = $('#datatable').DataTable({
 			processing: true,
 			serverSide: true,
-			ajax: "{{ route('console.articles.list') }}",
+			ajax: "{{ route('console.posts.list') }}",
 			columns: [
 			{data: 'id', name: 'id'},
 			{data: 'title', name: 'title'},
@@ -68,14 +68,14 @@
 		});
 		$('body').on('click','.check_approve',function() {
 			if ($(this).prop('checked')) {
-				ajax_approve_article($(this).data('article_id'),1)
+				ajax_approve_post($(this).data('post_id'),1)
 			} else {
-				ajax_approve_article($(this).data('article_id'),0)
+				ajax_approve_post($(this).data('post_id'),0)
 			}
 		});
 		$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-		function ajax_approve_article(id,val){
-			$.post(`{{ url('console/articles/ajax_approve_article') }}`, {article_id:id, val:val}, function(res){
+		function ajax_approve_post(id,val){
+			$.post(`{{ url('console/posts/ajax_approve_post') }}`, {post_id:id, val:val}, function(res){
 				if (res.success){
 					toastr.success(res.message);
 				} else {

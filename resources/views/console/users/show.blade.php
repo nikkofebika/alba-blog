@@ -14,42 +14,14 @@
 
 						<h3 class="profile-username text-center">{{$user->name}}</h3>
 
-						<p class="text-muted text-center">Software Engineer</p>
-
 						<ul class="list-group list-group-unbordered">
 							<li class="list-group-item">
-								<strong><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp; Rp. 300.000</strong> <button class="btn btn-xs btn-warning pull-right" data-toggle="modal" data-target="#mdlTopup">Top Up</button>
+								<strong><i class="fa fa-circle {{ auth()->user()->is_active ? 'text-success' : 'text-muted' }}"></i>&nbsp;&nbsp;&nbsp; Status : {{ auth()->user()->is_active ? 'Active' : 'Non Active' }}</strong>
 							</li>
 							<li class="list-group-item">
-								<strong><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp; 085691977176</strong>
-							</li>
-							<li class="list-group-item">
-								<strong><i class="fa fa-envelope"></i>&nbsp;&nbsp;&nbsp; nikkofe@gmail.com</strong>
+								<strong><i class="fa fa-envelope"></i>&nbsp;&nbsp;&nbsp; {{ auth()->user()->email }}</strong>
 							</li>
 						</ul>
-					</div>
-				</div>
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3 class="box-title">Lainnya</h3>
-					</div>
-					<div class="box-body">
-						<strong><i class="fa fa-home margin-r-5"></i> Alamat</strong>
-						<p class="text-muted">
-							The Bellezza Permata Hijau, Office Tower Lt. 26 Jalan Letjen Soepeno No. 34 Arteri Permata Hijau - Jakarta Selatan 12210.
-						</p>
-						<hr>
-						<strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-						<p>
-							<span class="label label-danger">UI Design</span>
-							<span class="label label-success">Coding</span>
-							<span class="label label-info">Javascript</span>
-							<span class="label label-warning">PHP</span>
-							<span class="label label-primary">Node.js</span>
-						</p>
-						<hr>
-						<strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
 					</div>
 				</div>
 			</div>
