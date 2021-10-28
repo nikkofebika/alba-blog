@@ -1,0 +1,12 @@
+db : db_triputra
+username : triputra
+pass : t255=G=2Y8KB?EU7
+
+1. https://bootstrapmade.com/demo/templates/Eterna/
+2. https://bootstrapmade.com/demo/templates/Moderna/
+3. https://bootstrapmade.com/demo/templates/Sailor/
+4. https://bootstrapmade.com/demo/Company/
+5. https://bootstrapmade.com/demo/templates/Flexor/
+6. https://bootstrapmade.com/demo/templates/Ninestars/
+7. https://bootstrapmade.com/demo/templates/FlexStart/
+8. https://bootstrapmade.com/demo/templates/Anyar/
