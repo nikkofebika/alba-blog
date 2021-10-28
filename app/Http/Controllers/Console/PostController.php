@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
-use App\Models\post;
+use App\Models\Post;
+use App\Models\PostTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -59,17 +60,27 @@ class PostController extends Controller {
 			$request->image->move(public_path($dir), $imageName);
 		}
 
-		$ar = new post;
-		$ar->user_id = auth()->user()->id;
-		$ar->category_id = $request->category_id;
-		$ar->title = trim($request->title);
-		$ar->seo_title = Str::slug($ar->title, '-');
-		$ar->description = trim($request->description);
-		$ar->is_slider = $request->is_slider;
-		$ar->image = $dir.$imageName;
-		$ar->published_at = date('Y-m-d H:i:s', strtotime($request->published_at));
-		$ar->save();
-		return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post created successfully'));
+		$post = new Post;
+		$post->user_id = auth()->user()->id;
+		$post->category_id = $request->category_id;
+		$post->title = trim($request->title);
+		$post->seo_title = Str::slug($post->title, '-');
+		$post->description = trim($request->description);
+		$post->is_slider = $request->is_slider;
+		$post->image = $dir.$imageName;
+		$post->published_at = date('Y-m-d H:i:s', strtotime($request->published_at));
+		if ($post->save()) {
+			if ($request->has('tags') && count($request->tags) > 0) {
+				foreach ($request->tags as $tag) {
+					PostTag::create([
+						'post_id' => $post->id,
+						'tag_id' => $tag,
+					]);
+				}
+			}
+			return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post berhasil disimpan'));
+		}
+		return redirect('console/posts')->with('notification', $this->flash_data('error', 'Gagal', 'Gagal menyimpan post'));
 	}
 
 	public function show($id) {
@@ -93,7 +104,7 @@ class PostController extends Controller {
 			'published_at' => 'required',
 		]);
 
-		$ar = Post::findOrFail($id);
+		$post = Post::findOrFail($id);
 		if ($request->hasFile('image')) {
 			if ($request->image->isValid()) {
 				$imageName = Str::slug($request->title, '-').'-'.time().'.'.$request->image->extension();
@@ -102,24 +113,36 @@ class PostController extends Controller {
 					mkdir(public_path($dir), 0777, true);
 					chmod(public_path($dir), 0777);
 				}
-				if (file_exists(public_path($ar->image))) {
-					unlink(public_path($ar->image));
+				if (file_exists(public_path($post->image))) {
+					unlink(public_path($post->image));
 				}
 				$request->image->move(public_path($dir), $imageName);
 			}
 		}
 
-		$ar->category_id = $request->category_id;
-		$ar->title = trim($request->title);
-		$ar->seo_title = Str::slug($ar->title, '-');
-		$ar->description = $request->description;
-		$ar->is_slider = $request->is_slider;
+		$post->category_id = $request->category_id;
+		$post->title = trim($request->title);
+		$post->seo_title = Str::slug($post->title, '-');
+		$post->description = $request->description;
+		$post->is_slider = $request->is_slider;
 		if ($request->hasFile('image')) {
-			$ar->image = $dir.$imageName;
+			$post->image = $dir.$imageName;
 		}
-		$ar->published_at = date('Y-m-d H:i:s', strtotime($request->published_at));
-		$ar->save();
-		return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post updated successfully'));
+		$post->published_at = date('Y-m-d H:i:s', strtotime($request->published_at));
+		$post->save();
+		if ($post->save()) {
+			if ($request->has('tags') && count($request->tags) > 0) {
+				PostTag::where('post_id', $post->id)->delete();
+				foreach ($request->tags as $tag) {
+					PostTag::create([
+						'post_id' => $post->id,
+						'tag_id' => $tag,
+					]);
+				}
+			}
+			return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post berhasil diupdate'));
+		}
+		return redirect('console/posts')->with('notification', $this->flash_data('error', 'Gagal', 'Post gagal diupdate'));
 	}
 
 	public function destroy($id) {
@@ -128,7 +151,7 @@ class PostController extends Controller {
 			unlink(public_path($post->image));
 		}
 		$post->delete();
-		return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post deleted successfully'));
+		return redirect('console/posts')->with('notification', $this->flash_data('success', 'Success', 'Post berhasil dihapus'));
 	}
 
 	public function ajax_approve_post(Request $request) {

@@ -29,6 +29,9 @@
   .d-inline {display: inline !important}.d-inline-block {display: inline-block !important}.d-block {display: block !important}
   .text-white {color: #fff !important;}
   .p-1{padding: 0.5rem}.p-2{padding: 0.75rem}.p-3{padding: 1rem}
+  
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {background-color: #3c8dbc; border-color: #367fa9; color: #ffffff !important;}
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {color: #ffffff !important;}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>

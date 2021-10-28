@@ -20,13 +20,19 @@
 									<th>SEO Judul</th>
 									<td>: {{ $post->seo_title }}</td>
 								</tr>
+								@if(!empty($post->tags))
+								<tr>
+									<th>Tags</th>
+									<td>: 
+										@foreach($post->tags as $t)
+										{{$t->title}},&nbsp;
+										@endforeach
+									</td>
+								</tr>
+								@endif
 								<tr>
 									<th>Tanggal Tayang</th>
 									<td>: <?php echo date('d-m-Y H:i', strtotime($post->published_at)) ?> / <?php echo $post->published_at <= date('Y-m-d H:i:s') ? '<span class="label label-primary">Sudah Tayang</span>' : '<span class="label label-warning">Belun Tayang</span>' ?></td>
-								</tr>
-								<tr>
-									<th>View</th>
-									<td>: {{ $post->view }}</td>
 								</tr>
 								<tr>
 									<th>Dibuat Oleh</th>

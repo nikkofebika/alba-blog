@@ -38,14 +38,14 @@ class CategoryController extends Controller {
 	public function store(Request $request) {
 		$arrValidator = [];
 		if ($request->has('id')) {
-			$ac = Category::findOrFail($request->id);
+			$category = Category::findOrFail($request->id);
 			$arrValidator = [
 				'title' => 'required|unique:categories,title,'.$request->id,
 				'priority' => 'required|numeric',
 			];
 			$msg = 'Kategori berhasil diupdate';
 		} else {
-			$ac = new Category;
+			$category = new Category;
 			$arrValidator = [
 				'title' => 'required|unique:categories,title',
 				'priority' => 'required|numeric',
@@ -57,18 +57,17 @@ class CategoryController extends Controller {
 
 		if ($validator->fails()) {
 			$errMsg = '<ul>';
-			foreach ($validator->errors() as $e) {
+			foreach ($validator->errors()->all() as $e) {
 				$errMsg .= '<li>'.$e.'</li>';
 			}
 			$errMsg .= '<ul>';
 			return redirect('console/categories')->with('notification', $this->flash_data('error', 'Gagal', $errMsg));
-			return response()->json(["success" => false]);
 		}
 		
-		$ac->title = trim($request->title);
-		$ac->seo_title = Str::slug($ac->title, '-');
-		$ac->priority = $request->priority;
-		$ac->save();
+		$category->title = trim($request->title);
+		$category->seo_title = Str::slug($category->title, '-');
+		$category->priority = $request->priority;
+		$category->save();
 		cache()->forget('categories');
 		cache()->rememberForever('categories', function () {
 			return DB::table('categories')->select('id','title','seo_title')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
@@ -82,11 +81,11 @@ class CategoryController extends Controller {
 	// 		'priority' => 'required|numeric',
 	// 	]);
 
-	// 	$ac = Category::findOrFail($id);
-	// 	$ac->title = $request->title;
-	// 	$ac->seo_title = Str::slug($ac->title, '-');
-	// 	$ac->priority = $request->priority;
-	// 	$ac->save();
+	// 	$category = Category::findOrFail($id);
+	// 	$category->title = $request->title;
+	// 	$category->seo_title = Str::slug($category->title, '-');
+	// 	$category->priority = $request->priority;
+	// 	$category->save();
 	// 	return redirect('console/categories')->with('notification', $this->flash_data('success', 'Berhasil', 'Kategori berhasil diupdate'));
 	// }
 

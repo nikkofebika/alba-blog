@@ -63,7 +63,7 @@
 						<ul>
 							<?php
 							$ar_categories = cache()->get('ARTICLE_CATEGORIES', function () {
-								return DB::table('article_categories')->select('id','title','seo_title')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
+								return DB::table('categories')->select('id','title','seo_title')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
 							});
 							foreach($ar_categories as $c) { ?>
 								<li><a href="{{ url('bulletin/'.$c->seo_title) }}">{{ $c->title }}</a></li>

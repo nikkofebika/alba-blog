@@ -2,6 +2,7 @@
 @push('styles')
 <link href="{{ asset('backend/bower_components/summernote/summernote.min.css') }}" rel="stylesheet">
 <link href="{{ asset('backend/bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+<link href="{{ asset('backend/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">
 @endpush
 @section('content')
 <div class="content-wrapper">
@@ -24,7 +25,7 @@
 								@enderror
 							</div>
 							<div class="row">
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-4 col-sm-12">
 									<div class="form-group @error('image') has-error @enderror">
 										<label>Gambar <small class="text-warning">(Upload ulang untuk mengganti gambar | Max 500kb | jpg,jpeg,png,svg)</small></label>
 										<input type="file" name="image" class="form-control" value="{{ old('image') }}">
@@ -34,11 +35,23 @@
 										@enderror
 									</div>
 								</div>
-								<div class="col-md-6 col-sm-12">
+								<div class="col-md-4 col-sm-12">
 									<div class="form-group @error('published_at') has-error @enderror">
 										<label>Waktu Tayang <span class="text-danger">*</span></label>
 										<input type="text" name="published_at" class="form-control" id="datetimepicker" required value="{{ date('Y-m-d H:i', strtotime($post->published_at)) }}" readonly/>
 										@error('published_at')
+										<span class="help-block">{{ $message }}</span>
+										@enderror
+									</div>
+								</div>
+								<div class="col-md-4 col-sm-12">
+									<div class="form-group @error('is_slider') has-error @enderror">
+										<label>Slider ? <span class="text-danger">*</span></label>
+										<select name="is_slider" class="form-control">
+											<option value="0" <?php echo $post->is_slider == 0 ? 'selected' : '' ?>>Tidak</option>
+											<option value="1" <?php echo $post->is_slider == 1 ? 'selected' : '' ?>>Ya</option>
+										</select>
+										@error('is_slider')
 										<span class="help-block">{{ $message }}</span>
 										@enderror
 									</div>
@@ -60,13 +73,14 @@
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-12">
-									<div class="form-group @error('is_slider') has-error @enderror">
-										<label>Slider ? <span class="text-danger">*</span></label>
-										<select name="is_slider" class="form-control">
-											<option value="0" <?php echo $post->is_slider == 0 ? 'selected' : '' ?>>Tidak</option>
-											<option value="1" <?php echo $post->is_slider == 1 ? 'selected' : '' ?>>Ya</option>
+									<div class="form-group @error('tags') has-error @enderror">
+										<label>Tags <span class="text-danger">*</span></label>
+										<select name="tags[]" required class="form-control" id="tags" multiple>
+											<?php foreach ($post->tags as $tag): ?>
+												<option value="<?php echo $tag->id ?>" selected><?php echo $tag->title ?></option>
+											<?php endforeach ?>
 										</select>
-										@error('is_slider')
+										@error('tags')
 										<span class="help-block">{{ $message }}</span>
 										@enderror
 									</div>
@@ -93,6 +107,7 @@
 @push('scripts')
 <script src="{{ asset('backend/bower_components/summernote/summernote.min.js') }}"></script>
 <script src="{{ asset('backend/bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('backend/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
 <script>
 	$(function () {
 		$('#datetimepicker').datetimepicker({
@@ -100,10 +115,12 @@
 			autoclose: 1,
 			todayHighlight: 1,
 		});
+
 		$('#summernote').summernote({
 			height: 500,
 			placeholder: 'Tulis deskripsi disini...'
 		});
+
 		x = document.getElementById("password");
 		$('#btnShowHide').click(function(){
 			if (x.type === "password") {
@@ -113,7 +130,28 @@
 				x.type = "password";
 				$(this).children().removeClass('fa-eye-slash').addClass('fa-eye');
 			}
-		})
+		});
+
+		$('#tags').select2({
+			minimumInputLength: 2,
+			// tokenSeparators: [',', ' '],
+			allowClear: true,
+			placeholder: 'Tag',
+			ajax: {
+				dataType: 'json',
+				url: '<?php echo url('console/tags/ajax_get_tags') ?>',
+				data: function(params) {
+					return {
+						search: params.term
+					}
+				},
+				processResults: function (data, page) {
+					return {
+						results: data
+					};
+				},
+			}
+		});
 	});
 </script>
 @endpush

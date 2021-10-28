@@ -57,18 +57,18 @@ Auth::routes();
 // 	Route::post('room/ajax_create_booking_schedules', [App\Http\Controllers\Dashboard\RoomController::class, 'ajax_create_booking_schedules']);
 // 	Route::get('room/ajax_get_today_schedules/{roomId}/{date}/{scheduleId?}', [App\Http\Controllers\Dashboard\RoomController::class, 'ajax_get_today_schedules']);
 // 	Route::post('room/ajax_delete_booking_schedules', [App\Http\Controllers\Dashboard\RoomController::class, 'ajax_delete_booking_schedules']);
-	
+
 // 	Route::get('lost-item', [App\Http\Controllers\DashboardController::class, 'lost_item']);
 // 	Route::any('lost-item/{itemId}/edit', [App\Http\Controllers\DashboardController::class, 'edit_lost_item']);
 // 	Route::any('lost-item/create', [App\Http\Controllers\DashboardController::class, 'create_lost_item']);
-	
+
 // 	Route::get('find-item', [App\Http\Controllers\DashboardController::class, 'find_item']);
 // 	Route::any('find-item/{itemId}/edit', [App\Http\Controllers\DashboardController::class, 'edit_find_item']);
 // 	Route::any('find-item/create', [App\Http\Controllers\DashboardController::class, 'create_find_item']);
-	
+
 // 	Route::any('search-saved', [App\Http\Controllers\DashboardController::class, 'search_saved']);
 // 	Route::delete('delete-search-saved/{itemId}', [App\Http\Controllers\DashboardController::class, 'delete_search_saved']);
-	
+
 // 	Route::delete('delete-item/{itemId}', [App\Http\Controllers\DashboardController::class, 'delete_item']);
 // 	Route::post('ajax_search_my_items/{offset}/{limit}', [App\Http\Controllers\DashboardController::class, 'ajax_search_my_items']);
 // });
@@ -93,34 +93,38 @@ Route::group(['prefix' => 'console', 'as' => 'console.', 'middleware' => 'auth']
 	Route::put('categories/{id}', [App\Http\Controllers\Console\CategoryController::class, 'update']);
 	Route::delete('categories/destroy/{id}', [App\Http\Controllers\Console\CategoryController::class, 'destroy']);
 
-	Route::get('facilities/list', [App\Http\Controllers\Console\FacilityController::class, 'getFacilities'])->name('facilities.list');
-	Route::post('facilities/ajax_active_facility', [App\Http\Controllers\Console\FacilityController::class, 'ajax_active_facility']);
+	Route::post('tags/ajax_cek_tag', [App\Http\Controllers\Console\TagController::class, 'ajax_cek_tag']);
+	Route::get('tags/ajax_get_tags', [App\Http\Controllers\Console\TagController::class, 'ajax_get_tags']);
 
-	Route::get('rooms/list', [App\Http\Controllers\Console\RoomController::class, 'getRooms'])->name('rooms.list');
-	Route::post('rooms/ajax_approve_room', [App\Http\Controllers\Console\RoomController::class, 'ajax_approve_room']);
-	
-	Route::post('company-policies/ajax_approve_policy', [App\Http\Controllers\Console\CompanyPolicyController::class, 'ajax_approve_policy']);
-	Route::post('teams/ajax_approve_team', [App\Http\Controllers\Console\TeamController::class, 'ajax_approve_team']);
-	
-	Route::get('rooms/booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'booking_schedules']);
-	Route::get('rooms/ajax_load_schedules/{scheduleId?}', [App\Http\Controllers\Console\RoomController::class, 'ajax_load_schedules']);
-	Route::post('rooms/ajax_move_schedule', [App\Http\Controllers\Console\RoomController::class, 'ajax_move_schedule']);
-	Route::get('rooms/ajax_get_today_schedules/{roomId}/{date}/{scheduleId?}', [App\Http\Controllers\Console\RoomController::class, 'ajax_get_today_schedules']);
-	Route::post('rooms/ajax_create_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'ajax_create_booking_schedules']);
-	Route::any('rooms/create_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'create_booking_schedules']);
-	Route::post('rooms/ajax_edit_booking_schedules/{id}', [App\Http\Controllers\Console\RoomController::class, 'ajax_edit_booking_schedules']);
-	Route::post('rooms/ajax_delete_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'ajax_delete_booking_schedules']);
-	Route::any('rooms/edit_booking_schedules/{id}', [App\Http\Controllers\Console\RoomController::class, 'edit_booking_schedules']);
-	Route::get('rooms/booking_schedule_list', [App\Http\Controllers\Console\RoomController::class, 'booking_schedule_list'])->name('rooms.booking_schedule_list');
+	// Route::get('facilities/list', [App\Http\Controllers\Console\FacilityController::class, 'getFacilities'])->name('facilities.list');
+	// Route::post('facilities/ajax_active_facility', [App\Http\Controllers\Console\FacilityController::class, 'ajax_active_facility']);
 
-	Route::get('medical', [App\Http\Controllers\Console\MedicalController::class, 'index']);
+	// Route::get('rooms/list', [App\Http\Controllers\Console\RoomController::class, 'getRooms'])->name('rooms.list');
+	// Route::post('rooms/ajax_approve_room', [App\Http\Controllers\Console\RoomController::class, 'ajax_approve_room']);
+	
+	// Route::post('company-policies/ajax_approve_policy', [App\Http\Controllers\Console\CompanyPolicyController::class, 'ajax_approve_policy']);
+	// Route::post('teams/ajax_approve_team', [App\Http\Controllers\Console\TeamController::class, 'ajax_approve_team']);
+	
+	// Route::get('rooms/booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'booking_schedules']);
+	// Route::get('rooms/ajax_load_schedules/{scheduleId?}', [App\Http\Controllers\Console\RoomController::class, 'ajax_load_schedules']);
+	// Route::post('rooms/ajax_move_schedule', [App\Http\Controllers\Console\RoomController::class, 'ajax_move_schedule']);
+	// Route::get('rooms/ajax_get_today_schedules/{roomId}/{date}/{scheduleId?}', [App\Http\Controllers\Console\RoomController::class, 'ajax_get_today_schedules']);
+	// Route::post('rooms/ajax_create_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'ajax_create_booking_schedules']);
+	// Route::any('rooms/create_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'create_booking_schedules']);
+	// Route::post('rooms/ajax_edit_booking_schedules/{id}', [App\Http\Controllers\Console\RoomController::class, 'ajax_edit_booking_schedules']);
+	// Route::post('rooms/ajax_delete_booking_schedules', [App\Http\Controllers\Console\RoomController::class, 'ajax_delete_booking_schedules']);
+	// Route::any('rooms/edit_booking_schedules/{id}', [App\Http\Controllers\Console\RoomController::class, 'edit_booking_schedules']);
+	// Route::get('rooms/booking_schedule_list', [App\Http\Controllers\Console\RoomController::class, 'booking_schedule_list'])->name('rooms.booking_schedule_list');
+
+	// Route::get('medical', [App\Http\Controllers\Console\MedicalController::class, 'index']);
 
 	Route::resources([
 		'users' => App\Http\Controllers\Console\UserController::class,
 		'posts' => App\Http\Controllers\Console\PostController::class,
-		'facilities' => App\Http\Controllers\Console\FacilityController::class,
-		'rooms' => App\Http\Controllers\Console\RoomController::class,
-		'company-policies' => App\Http\Controllers\Console\CompanyPolicyController::class,
-		'teams' => App\Http\Controllers\Console\TeamController::class,
+		// 'facilities' => App\Http\Controllers\Console\FacilityController::class,
+		// 'rooms' => App\Http\Controllers\Console\RoomController::class,
+		// 'company-policies' => App\Http\Controllers\Console\CompanyPolicyController::class,
+		// 'teams' => App\Http\Controllers\Console\TeamController::class,
+		'tags' => App\Http\Controllers\Console\TagController::class,
 	]);
 });

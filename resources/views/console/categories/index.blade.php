@@ -25,7 +25,8 @@
 										<th>No</th>
 										<th>Judul</th>
 										<th>SEO</th>
-										<th>Urutan</th>
+										<th>Total Post</th>
+										<th>Urutan Tampil</th>
 										<th>Aktif</th>
 										<th></th>
 									</tr>
@@ -38,6 +39,7 @@
 											<td>{{ $no++ }}</td>
 											<td>{{ $c->title }}</td>
 											<td>{{ $c->seo_title }}</td>
+											<td>{{ count($c->posts) }}</td>
 											<td>{{ $c->priority }}</td>
 											<td><input type="checkbox" <?php echo $c->approved_by != null ? 'checked' : '' ?> class="check_active" data-category_id="{{ $c->id }}" /></td>
 											<td>
