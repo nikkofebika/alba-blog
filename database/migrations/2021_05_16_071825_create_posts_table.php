@@ -21,7 +21,6 @@ class CreatePostsTable extends Migration
             $table->string('seo_title')->unique();
             $table->text('description');
             $table->text('image');
-            $table->boolean('is_slider')->default(false);
             $table->integer('approved_by')->nullable();
             $table->dateTime('published_at')->useCurrent();
             $table->timestamps();

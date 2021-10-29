@@ -6,56 +6,86 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller {
-    public function index() {
-        $posts = DB::table('posts')->join('categories', 'posts.category_id', '=', 'categories.id')->select('categories.seo_title as seo_category','posts.title','posts.seo_title','posts.image', DB::raw('substr(posts.description, 1, 250) as description'))->where('posts.is_slider', 1)->whereNotNull('posts.approved_by')->whereDate('posts.published_at','<=', NOW())->get();
-        if (auth()->check()) {
-            $teams = DB::table('teams')->select('name','position','image','socmed')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
-            return view('index', ['active_menu' => 'home', 'posts' => $posts, 'teams' => $teams]);
-        }
-        return view('index', ['active_menu' => 'home', 'posts' => $posts]);
-    }
+	protected $categories;
 
-    public function company_policy() {
-        $policies = DB::table('company_policies')->select('id','title','description','file')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
-        $titles = [];
-        $descriptions = [];
-        foreach ($policies as $p) {
-            $titles[] = $p->title;
-            $descriptions[] = ['description' => $p->description, 'file' => $p->file];
-        }
-        return view('company_policy', ['active_menu' => 'company-policy', 'titles' => $titles, 'descriptions' => $descriptions]);
-    }
+	public function __construct() {
+		$this->categories = cache()->get('CATEGORIES', function () {
+			$c = DB::table('categories')->select('id','title','seo_title')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
+			cache()->forever('CATEGORIES', $c);
+			return $c;
+		});
+	}
 
-    public function forgot_password() {
-        return view('forgot_password', ['active_menu' => 'forgot_password']);
-    }
+	public function index($seo_category = null) {
+		$seo_category = trim($seo_category);
+		$join_category = false;
+		$category_id = 0;
+		if ($seo_category != null) {
+			$category = DB::table('categories')->select('id')->where('seo_title',$seo_category)->whereNotNull('approved_by')->first();
+			if ($category) {
+				$join_category = true;
+				$category_id = $category->id;
+			} else {
+				return view('errors.404', ['category_id' => 0, 'categories' => $this->categories]);
+			}
+		}
 
-    public function facilities() {
-        $facilities = DB::table('facilities')->select('name','url','image')->where('is_active', 1)->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
-        return view('facilities', ['active_menu' => 'facilities', 'facilities' => $facilities]);
-    }
+		$posts = DB::table('posts')->join('categories', 'posts.category_id', '=', 'categories.id')->join('users', 'posts.user_id', '=', 'users.id')->select('users.name','categories.seo_title as seo_category','categories.title as category_title','posts.title','posts.seo_title','posts.image','posts.published_at','description');
+		if (isset($_GET['q']) && $_GET['q'] != '') {
+			$posts->where('posts.title', 'like', '%'.$_GET['q'].'%');
+		}
+		if ($join_category) {
+			$posts->where('posts.category_id', $category->id);
+		}
+		$posts = $posts->whereNotNull('categories.approved_by')->where('posts.published_at', '<=', NOW())->whereNotNull('posts.approved_by')->orderBy('posts.published_at','desc')->limit(5)->get();
+		return view('index', ['active_menu' => 'post','categories' => $this->categories, 'seo_category' => $seo_category, 'category_id' => $category_id, 'posts' => $posts]);
+	}
 
-    public function calendar() {
-        return view('calendar', ['active_menu' => 'calendar']);
-    }
+	public function detail_post($seo_category, $seo_title) {
+		$post = DB::table('posts')->join('categories', 'posts.category_id', '=', 'categories.id')->join('users', 'posts.user_id', '=', 'users.id')->select('users.name','posts.category_id','categories.seo_title as seo_category','categories.title as category_title','posts.id','posts.title','posts.seo_title','posts.image','posts.published_at','posts.description')->where('posts.seo_title', $seo_title)->whereNotNull('categories.approved_by')->where('posts.published_at', '<=', NOW())->whereNotNull('posts.approved_by')->first();
+		if (!$post) {
+			return view('errors.404', ['category_id' => 0, 'categories' => $this->categories]);
+		}
+		$tags = DB::table('post_tag')->join('tags', 'post_tag.tag_id', '=', 'tags.id')->select('tags.title')->where('post_tag.post_id', $post->id)->get();
+		return view('detail_post', ['active_menu' => 'post', 'categories' => $this->categories, 'post' => $post, 'tags' => $tags, 'category_id' => $post->category_id]);
+	}
 
-    public function kalender() {
-        return view('kalender', ['active_menu' => 'kalender']);
-    }
+	public function ajax_load_more($offset, $category_id = null) {
+		$posts = DB::table('posts')->join('categories', 'posts.category_id', '=', 'categories.id')->join('users', 'posts.user_id', '=', 'users.id')->select('users.name','categories.seo_title as seo_category','categories.title as category_title','posts.title','posts.seo_title','posts.image','posts.published_at','description')->whereNotNull('categories.approved_by')->where('posts.published_at', '<=', NOW())->whereNotNull('posts.approved_by');
+		if (isset($_GET['q']) && $_GET['q'] != '') {
+			$posts->where('posts.title', 'like', '%'.$_GET['q'].'%');
+		}
+		if ($category_id != null && $category_id != 0) {
+			$posts->where('posts.category_id', $category_id);
+		}
+		$posts = $posts->orderBy('posts.published_at','desc')->offset($offset)->limit(5)->get();
 
-    public function bulletin() {
-        $bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->paginate(15);
-        $recent_bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('published_at', '<=', NOW())->whereNotNull('approved_by')->orderBy('published_at', 'desc')->limit(5)->get();
-        return view('bulletin', ['bulletins' => $bulletins, 'recent_bulletins' => $recent_bulletins, 'active_menu' => 'bulletin']);
-    }
-
-    public function detail_bulletin($seo_title) {
-        return view('detail_bulletin', ['active_menu' => 'bulletin']);
-    }
-    
-    // public function detail_bulletin($seo_title) {
-    // 	$bulletin = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where('seo_title', $seo_title)->where([['published_at', '<=', NOW()], ['approved', 1]])->first();
-    //     $recent_bulletins = DB::table('posts')->select('title','seo_title','description','image','published_at','created_by')->where([['published_at', '<=', NOW()], ['approved', 1]])->where('seo_title','!=',$bulletin->seo_title)->orderBy('published_at', 'desc')->limit(5)->get();
-    // 	return view('detail_bulletin', ['bulletin' => $bulletin, 'recent_bulletins' => $recent_bulletins, 'active_menu' => 'bulletin']);
-    // }
+		$html = '';
+		if (count($posts) > 0) {
+			foreach ($posts as $b) {
+				$html .= '<post class="entry">';
+				$html .= '<div class="entry-img">';
+				$html .= '<img src="'.asset($b->image).'" alt="'.$b->title.'" class="img-fluid">';
+				$html .= '</div>';
+				$html .= '<h2 class="entry-title">';
+				$html .= '<a href="'.url('post/'.$b->seo_title).'">'.$b->title.'</a>';
+				$html .= '</h2>';
+				$html .= '<div class="entry-meta">';
+				$html .= '<ul>';
+				$html .= '<li class="d-flex align-items-center"><i class="bi bi-clock"></i> <time datetime="'.date('d-M-Y, H:i', strtotime($b->published_at)).'">'.date('d-M-Y H:i', strtotime($b->published_at)).'</time></li>';
+				$html .= '<li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">'.$b->name.'</a></li>';
+				$html .= '</ul>';
+				$html .= '</div>';
+				$html .= '<div class="entry-content">';
+				$html .= '<p>'.substr(strip_tags($b->description), 0, 100).'...</p>';
+				$html .= '<div class="read-more">';
+				$html .= '<a href="'.url('post/'.$b->seo_title).'">Read More</a>';
+				$html .= '</div>';
+				$html .= '</div>';
+				$html .= '</post>';
+			}
+			return ['success' => true, 'html' => $html];
+		}
+		return ['success' => false, 'html' => $html];
+	}
 }

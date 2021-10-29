@@ -26,7 +26,6 @@
 										<th>Judul</th>
 										<th>Image</th>
 										<th>Tgl Publish</th>
-										<th>Slider?</th>
 										<th>Aktif?</th>
 										<th></th>
 									</tr>
@@ -56,7 +55,6 @@
 			{data: 'title', name: 'title'},
 			{data: 'image', name: 'image',orderable: false},
 			{data: 'published_at', name: 'published_at'},
-			{data: 'is_slider', name: 'is_slider'},
 			{data: 'approved_by', name: 'approved_by',orderable: false},
 			{
 				data: 'action', 

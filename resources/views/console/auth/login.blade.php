@@ -4,29 +4,19 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Login</title>
-	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="{{ asset('backend/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('backend/bower_components/font-awesome/css/font-awesome.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('backend/bower_components/Ionicons/css/ionicons.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('backend/dist/css/AdminLTE.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/square/blue.css') }}">
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-
-<!-- Google Font -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition login-page">
 	<div class="login-box">
 		<div class="login-logo">
 			<a href="/"><b>blog</b></a>
 		</div>
-		<!-- /.login-logo -->
 		<div class="login-box-body">
 			<p class="login-box-msg">Sign in to start your session</p>
 			@if (session('error'))
@@ -43,12 +33,12 @@
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				</div>
 				<div class="form-group">
-                    <div class="input-group">
-                        <input name="password" type="password" id="password" required class="form-control" placeholder="Password">
-                        <span class="input-group-addon" id="btnShowHide"><i class="fa fa-eye"></i></span>
-                        <span class="input-group-append"></span>
-                    </div>
-                </div>
+					<div class="input-group">
+						<input name="password" type="password" id="password" required class="form-control" placeholder="Password">
+						<span class="input-group-addon" id="btnShowHide"><i class="fa fa-eye"></i></span>
+						<span class="input-group-append"></span>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="checkbox icheck">
@@ -72,7 +62,7 @@
 			$('input').iCheck({
 				checkboxClass: 'icheckbox_square-blue',
 				radioClass: 'iradio_square-blue',
-				increaseArea: '20%' /* optional */
+				increaseArea: '20%'
 			});
 			x = document.getElementById("password");
 			$('#btnShowHide').click(function(){

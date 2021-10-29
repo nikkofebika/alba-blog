@@ -40,7 +40,11 @@
 </div>
 <div class="modal fade" id="mdlShowDetail">
 	<div class="modal-dialog">
-		<h4 class="text-white"><img src="{{ asset('images/gif/loader2.gif') }}"> Loading...</h4>
+		<div class="modal-content">
+			<div class="modal-body">
+				<h4 class="text-white"><img src="{{ asset('images/gif/loader2.gif') }}"> Loading...</h4>
+			</div>
+		</div>
 	</div>
 </div>
 @endSection

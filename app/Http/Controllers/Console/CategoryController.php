@@ -105,8 +105,8 @@ class CategoryController extends Controller {
 				$success = false;
 				$message = 'Kategori Nonaktif';
 			}
-			cache()->forget('categories');
-			cache()->rememberForever('categories', function () {
+			cache()->forget('CATEGORIES');
+			cache()->rememberForever('CATEGORIES', function () {
 				return DB::table('categories')->select('id','title','seo_title')->whereNotNull('approved_by')->orderBy('priority', 'asc')->orderBy('updated_at', 'desc')->get();
 			});
 			return ['success'=>$success, 'message'=> $message];

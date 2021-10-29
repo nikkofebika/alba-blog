@@ -17,12 +17,11 @@ class PostController extends Controller {
 
 	public function getPosts(Request $request) {
 		if ($request->ajax()) {
-			$data = Post::select(['id','title','image','approved_by','is_slider','published_at','created_at'])->orderBy('created_at', 'desc')->get();
+			$data = Post::select(['id','title','image','approved_by','published_at','created_at'])->orderBy('created_at', 'desc')->get();
 			return Datatables::of($data)
 			->addIndexColumn()
 			->editColumn('image', function($data) {return '<a href="'.asset($data->image).'" target="_blank"><img src="'.asset($data->image).'" width="100"/></a>';})
 			->editColumn('published_at', function($data) {return date('d-m-Y H:i', strtotime($data->published_at));})
-			->editColumn('is_slider', function($data) {return $data->is_slider == 1 ? '<span class="label label-success">Slider</span>' : '';})
 			->editColumn('approved_by', function($data) {
 				$checked = $data->approved_by != null ? 'checked' : '';
 				return '<input type="checkbox" '.$checked.' class="check_approve" data-post_id="'.$data->id.'" />';
@@ -44,7 +43,6 @@ class PostController extends Controller {
 		$request->validate([
 			'title' => 'required|unique:posts',
 			'category_id' => 'required',
-			'is_slider' => 'required',
 			'description' => 'required',
 			'published_at' => 'required',
 			'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:512',
@@ -66,7 +64,6 @@ class PostController extends Controller {
 		$post->title = trim($request->title);
 		$post->seo_title = Str::slug($post->title, '-');
 		$post->description = trim($request->description);
-		$post->is_slider = $request->is_slider;
 		$post->image = $dir.$imageName;
 		$post->published_at = date('Y-m-d H:i:s', strtotime($request->published_at));
 		if ($post->save()) {
@@ -98,7 +95,6 @@ class PostController extends Controller {
 		$request->validate([
 			'title' => 'required|unique:posts,title,'.$id,
 			'category_id' => 'required',
-			'is_slider' => 'required',
 			'description' => 'required',
 			'image' => 'image|mimes:jpeg,png,jpg,svg|max:512',
 			'published_at' => 'required',
@@ -124,7 +120,7 @@ class PostController extends Controller {
 		$post->title = trim($request->title);
 		$post->seo_title = Str::slug($post->title, '-');
 		$post->description = $request->description;
-		$post->is_slider = $request->is_slider;
+		$post->approved_by = null;
 		if ($request->hasFile('image')) {
 			$post->image = $dir.$imageName;
 		}

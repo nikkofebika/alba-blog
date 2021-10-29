@@ -25,7 +25,7 @@ class UserController extends Controller {
 			})
 			->addColumn('action', function($data){
 				$btnDel = $data->id !== auth()->user()->id ? '<form method="POST" onsubmit="return confirm(\'Hapus '.$data->name.' ?\')" action="'.route("console.users.destroy", $data->id).'" class="d-inline"><input type="hidden" name="_token" value="'.csrf_token().'" /><input type="hidden" value="DELETE" name="_method"><button type="submit" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-trash"></i></button></form>' : '';
-				return '<a href="'.route('console.users.show', $data->id).'" class="btn btn-info btn-xs" title="Detail"><i class="fa fa-eye"></i></a> <a href="'.route('console.users.edit', $data->id).'" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i></a> '.$btnDel;
+				return '<button class="btn btn-info btn-xs" title="Detail" data-id="'.$data->id.'" data-toggle="modal" data-target="#mdlShowDetail"><i class="fa fa-eye"></i></button> <a href="'.route('console.users.edit', $data->id).'" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i></a> '.$btnDel;
 				// return '<button class="btn btn-info btn-xs" title="Detail" data-id="'.$data->id.'" data-toggle="modal" data-target="#mdlShowDetail"><i class="fa fa-eye"></i></button> <a href="'.route('console.users.edit', $data->id).'" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i></a> '.$btnDel;
 			})
 			->escapeColumns([])
@@ -65,8 +65,23 @@ class UserController extends Controller {
 
 	public function show($id) {
 		$user = User::findOrFail($id);
-		return view('console.users.show',['user' => $user, 'page_title' => 'User - Profil User', 'active_menu' => 'users']);
-		// return '<div class="box box-widget widget-user-2"><div class="widget-user-header bg-light-blue"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="widget-user-image"><img class="img-circle" src="'.asset($user->photo).'" alt="User Avatar"></div><h3 class="widget-user-username">'.$user->name.'</h3><h5 class="widget-user-desc">'.$status.'</h5></div><div class="box-footer no-padding"><ul class="nav nav-stacked"><li><a href="#"><strong>Email</strong> : '.$user->email.'</a></li><li><a href="#"><strong>Created at</strong> : '.$user->created_at->format('H:i d-m-Y').'</a></li></ul></div></div>';
+		$status = $user->is_active == 1 ? '<i class="fa fa-circle text-success"></i> Active' : '<i class="fa fa-circle text-muted"></i> Non Active';
+		return '<div class="box box-widget widget-user-2">
+		<div class="widget-user-header">
+		<div class="widget-user-image">
+		<img class="img-circle" src="'.asset($user->photo).'" alt="'.$user->name.'">
+		</div>
+		<h3 class="widget-user-username">'.$user->name.'</h3>
+		<h5 class="widget-user-desc">'.$status.'</h5>
+		</div>
+		<div class="box-footer no-padding">
+		<ul class="nav nav-stacked">
+		<li><a href="#"><strong>Email</strong> : '.$user->email.'</a></li>
+		<li><a href="#"><strong>Total Posts</strong> : '.count($user->posts).'</a></li>
+		<li><a href="#"><strong>Member Since</strong> : '.date('d-M-Y', strtotime($user->created_at)).'</a></li>
+		</ul>
+		</div>
+		</div>';
 	}
 
 	public function edit($id) {

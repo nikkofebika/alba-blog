@@ -25,7 +25,7 @@
 								@enderror
 							</div>
 							<div class="row">
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-6 col-sm-12">
 									<div class="form-group @error('image') has-error @enderror">
 										<label>Gambar <small class="text-warning">(Upload ulang untuk mengganti gambar | Max 500kb | jpg,jpeg,png,svg)</small></label>
 										<input type="file" name="image" class="form-control" value="{{ old('image') }}">
@@ -35,23 +35,11 @@
 										@enderror
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-6 col-sm-12">
 									<div class="form-group @error('published_at') has-error @enderror">
 										<label>Waktu Tayang <span class="text-danger">*</span></label>
 										<input type="text" name="published_at" class="form-control" id="datetimepicker" required value="{{ date('Y-m-d H:i', strtotime($post->published_at)) }}" readonly/>
 										@error('published_at')
-										<span class="help-block">{{ $message }}</span>
-										@enderror
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-12">
-									<div class="form-group @error('is_slider') has-error @enderror">
-										<label>Slider ? <span class="text-danger">*</span></label>
-										<select name="is_slider" class="form-control">
-											<option value="0" <?php echo $post->is_slider == 0 ? 'selected' : '' ?>>Tidak</option>
-											<option value="1" <?php echo $post->is_slider == 1 ? 'selected' : '' ?>>Ya</option>
-										</select>
-										@error('is_slider')
 										<span class="help-block">{{ $message }}</span>
 										@enderror
 									</div>

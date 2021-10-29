@@ -15,26 +15,26 @@ class CategoriesSeeder extends Seeder
     {
         \App\Models\Category::truncate();
         \App\Models\Category::create([
-            'title' => 'Company Bulletin',
-            'seo_title' => 'company-bulletin',
+            'title' => 'Nasional',
+            'seo_title' => 'nasional',
             'approved_by' => 1,
             'priority' => 1,
         ]);
     	\App\Models\Category::create([
-    		'title' => 'Monthly Culture',
-    		'seo_title' => 'monthly-culture',
+    		'title' => 'Ekonomi',
+    		'seo_title' => 'ekonomi',
     		'approved_by' => 1,
             'priority' => 2,
     	]);
     	\App\Models\Category::create([
-    		'title' => 'Employee Challenge',
-    		'seo_title' => 'employee-challenge',
+    		'title' => 'Olahraga',
+    		'seo_title' => 'olahraga',
     		'approved_by' => 1,
             'priority' => 3,
     	]);
     	\App\Models\Category::create([
-    		'title' => 'Up Comming Company Event',
-    		'seo_title' => 'up-comming-company-event',
+    		'title' => 'Teknologi',
+    		'seo_title' => 'teknologi',
     		'approved_by' => 1,
             'priority' => 4,
     	]);

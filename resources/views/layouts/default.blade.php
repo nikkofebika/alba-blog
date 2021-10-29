@@ -1,143 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>TechNews - HTML and CSS Template</title>
-	<link href="assets/img/favicon.png" rel=icon>
-	<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/fonts/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/mobile-menu.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/owl.carousel.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/owl.theme.default.min.css') }}" rel="stylesheet">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>{{ env('APP_NAME', 'Blog') }}</title>
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+	<link href="{{ asset('assets/img/logo/favicon.png') }}" rel="icon">
+	<link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 	@stack('styles')
 </head>
-
-<body id="page-top" data-spy="scroll" data-target=".navbar">
-	<div id="main-wrapper">
-		<div id="preloader">
-			<div id="status">
-				<div class="status-mes"></div>
-			</div>
+<body>
+	<header id="header" class="fixed-top d-flex align-items-center">
+		<div class="container d-flex align-items-center">
+			<h1 class="logo me-auto"><a href="/">{{ env('APP_NAME', 'Blog') }}</a></h1>
+			<nav id="navbar" class="navbar">
+				<ul>
+					@auth
+					<li><a href="{{ url('console/dashboard') }}" target="_blank">Dashboard</a></li>
+					<li><a href="javascript:void" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+					<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+						@csrf
+					</form>
+					@else
+					<li><a href="{{ url('login') }}" target="_blank">Login</a></li>
+					@endauth
+				</ul>
+				<i class="bi bi-list mobile-nav-toggle"></i>
+			</nav>
 		</div>
-		<div class="uc-mobile-menu-pusher">
-			<div class="content-wrapper">
-				<section id="header_section_wrapper" class="header_section_wrapper">
-					<div class="container">
-						<div class="header-section">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="left_section">
-										<span class="date">
-											Sunday .
-										</span>
-										<span class="time">
-											09 August . 2016
-										</span>
-										<div class="social">
-											<a class="icons-sm fb-ic"><i class="fa fa-facebook"></i></a>
-											<a class="icons-sm tw-ic"><i class="fa fa-twitter"></i></a>
-											<a class="icons-sm inst-ic"><i class="fa fa-instagram"> </i></a>
-											<a class="icons-sm tmb-ic"><i class="fa fa-tumblr"> </i></a>
-											<a class="icons-sm rss-ic"><i class="fa fa-rss"> </i></a>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="logo">
-										<a href="index.html"><img src="{{ asset('assets/img/logo.png') }}" alt="Tech NewsLogo"></a>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="right_section">
-										<ul class="nav navbar-nav">
-											<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i
-												class="fa fa-search"></i></a>
-												<ul class="dropdown-menu">
-													<li>
-														<div class="head-search">
-															<form role="form">
-																<div class="input-group">
-																	<input type="text" class="form-control"
-																	placeholder="Type Something"> <span class="input-group-btn">
-																		<button type="submit" class="btn btn-primary">Search
-																		</button>
-																	</span>
-																</div>
-															</form>
-														</div>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="navigation-section">
-							<nav class="navbar m-menu navbar-default">
-								<div class="container">
-									<div class="navbar-header">
-										<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-										data-target="#navbar-collapse-1"><span class="sr-only">Toggle navigation</span> <span
-										class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-									</div>
-									<div class="collapse navbar-collapse" id="#navbar-collapse-1">
-										<ul class="nav navbar-nav main-nav">
-											<li class="active"><a href="index.html">News</a></li>
-											<li><a href="category.html">Mobile</a></li>
-											<li><a href="blog.html">Tablet</a></li>
-											<li><a href="blog.html">Gadgets</a></li>
-											<li><a href="blog.html">Camera</a></li>
-											<li><a href="blog.html">Design</a></li>
-										</ul>
-									</div>
-								</div>
-							</nav>
-						</div>
+	</header>
+	<main id="main">
+		<section id="blog" class="blog" style="margin-top: 80px;">
+			<div class="container" data-aos="fade-up">
+				<div class="row">
+					<div class="col-lg-8 entries">
+						@yield('content')
 					</div>
-				</section>
-				@yield('content')
-				<section id="footer_section" class="footer_section">
-					<div class="footer_bottom_Section">
-						<div class="container">
-							<div class="row">
-								<div class="footer">
-									<center><p>&copy; Copyright 2016-Tech News . Design by: <a href="https://uicookies.com">uiCookies</a></p></center>
-								</div>
+					<div class="col-lg-4">
+						<div class="sidebar">
+							<h3 class="sidebar-title">Search</h3>
+							<div class="sidebar-item search-form">
+								<form action="" method="get">
+									<input type="text" id="query" name="q" value="<?php echo isset($_GET['q']) && $_GET['q'] != '' ? $_GET['q'] : '' ?>" style="outline: none;">
+									<button type="submit"><i class="bi bi-search"></i></button>
+								</form>
+							</div>
+							<h3 class="sidebar-title">Categories</h3>
+							<div class="sidebar-item categories">
+								<ul>
+									<li><a href="/" class="@if($category_id == 0) fw-bold text-primary @endif">- All</a></li>
+									@foreach($categories as $c)
+									<li><a href="{{ url($c->seo_title) }}" class="@if($category_id == $c->id) fw-bold text-primary @endif">- {{ $c->title }}</a></li>
+									@endforeach
+								</ul>
 							</div>
 						</div>
 					</div>
-				</section>
-			</div>
-		</div>
-		<a href="#" class="crunchify-top"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
-		<div class="uc-mobile-menu uc-mobile-menu-effect">
-			<button type="button" class="close" aria-hidden="true" data-toggle="offcanvas"
-			id="uc-mobile-menu-close-btn">&times;</button>
-			<div>
-				<div>
-					<ul id="menu">
-						<li class="active"><a href="blog.html">News</a></li>
-						<li><a href="category.html">Mobile</a></li>
-						<li><a href="blog.html">Tablet</a></li>
-						<li><a href="category.html">Gadgets</a></li>
-						<li><a href="blog.html">Camera</a></li>
-						<li><a href="category.html">Design</a></li>
-					</ul>
 				</div>
 			</div>
+		</section>
+	</main>
+	<footer id="footer">
+		<div class="container">
+			<div class="copyright">Copyright &copy; <strong><span>Nikko Febika</span></strong></div>
 		</div>
-	</div>
-	<script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('assets/js/mobile-menu.js') }}"></script>
-	<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-	<script src="{{ asset('assets/js/script.js') }}"></script>
+	</footer>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+	<script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+	<script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
+	<script src="{{ asset('assets/js/main.js') }}"></script>
 	@stack('scripts')
 </body>
 </html>

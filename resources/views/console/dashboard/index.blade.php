@@ -36,25 +36,25 @@
 			<div class="col-lg-3 col-xs-6">
 				<div class="small-box bg-yellow">
 					<div class="inner">
-						<h3>{{$facilities}}</h3>
-						<p>Fasilitas</p>
+						<h3>{{$tags}}</h3>
+						<p>Tags</p>
 					</div>
 					<div class="icon">
 						<i class="fa fa-bookmark-o"></i>
 					</div>
-					<a href="{{ url('console/facilities') }}" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+					<a href="{{ url('console/tags') }}" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 			<div class="col-lg-3 col-xs-6">
-				<div class="small-box bg-yellow">
+				<div class="small-box bg-red">
 					<div class="inner">
-						<h3>{{$rooms}}</h3>
-						<p>Ruangan</p>
+						<h3>{{$categories}}</h3>
+						<p>Categories</p>
 					</div>
 					<div class="icon">
-						<i class="fa fa-home"></i>
+						<i class="fa fa-list"></i>
 					</div>
-					<a href="{{ url('console/rooms') }}" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+					<a href="{{ url('console/categories') }}" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 		</div>

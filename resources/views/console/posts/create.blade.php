@@ -25,7 +25,7 @@
 								@enderror
 							</div>
 							<div class="row">
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-6 col-sm-12">
 									<div class="form-group @error('image') has-error @enderror">
 										<label>Gambar <span class="text-danger">*</span> <small class="text-warning">(Max 500kb | jpg,jpeg,png,svg)</small></label>
 										<input type="file" name="image" class="form-control" required value="{{ old('image') }}">
@@ -34,23 +34,11 @@
 										@enderror
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-12">
+								<div class="col-md-6 col-sm-12">
 									<div class="form-group @error('published_at') has-error @enderror">
 										<label>Waktu Tayang <span class="text-danger">*</span></label>
 										<input type="text" name="published_at" class="form-control" id="datetimepicker" required value="{{ old('published_at') }}" readonly/>
 										@error('published_at')
-										<span class="help-block">{{ $message }}</span>
-										@enderror
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-12">
-									<div class="form-group @error('is_slider') has-error @enderror">
-										<label>Slider ? <span class="text-danger">*</span></label>
-										<select name="is_slider" class="form-control">
-											<option value="0">Tidak</option>
-											<option value="1">Ya</option>
-										</select>
-										@error('is_slider')
 										<span class="help-block">{{ $message }}</span>
 										@enderror
 									</div>
